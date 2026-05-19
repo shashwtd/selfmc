@@ -6,35 +6,35 @@ A self-hosted Minecraft server on DigitalOcean with full lifecycle automation: e
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Prerequisites](#prerequisites)
-- [Setup](#setup)
-- [Configuration](#configuration)
-- [Hibernate / Revive](#hibernate--revive)
-- [Backup System](#backup-system)
-- [Discord Notifications](#discord-notifications)
-- [Automation Schedule](#automation-schedule)
-- [File Reference](#file-reference)
-- [Cost](#cost)
-- [Security](#security)
-- [Disaster Recovery](#disaster-recovery)
+- [What this is](#what-this-is)
+- [How it's built](#how-its-built)
+- [What you need](#what-you-need)
+- [Setting it up](#setting-it-up)
+- [The .env file](#the-env-file)
+- [Saving money when not playing](#saving-money-when-not-playing)
+- [Backups](#backups)
+- [Discord notifications](#discord-notifications)
+- [What runs automatically](#what-runs-automatically)
+- [What's in this repo](#whats-in-this-repo)
+- [What it actually costs](#what-it-actually-costs)
+- [Keeping secrets safe](#keeping-secrets-safe)
+- [If everything breaks](#if-everything-breaks)
 
 ---
 
-## Overview
+## What this is
 
-This is a complete, production-tested reference implementation for running a small Minecraft server (1–10 players) on DigitalOcean at minimal cost. The key design goals:
+A complete, production-tested setup for running a small Minecraft server (1–10 players) on DigitalOcean at minimal cost.
 
-**Cost efficiency.** The droplet exists only when you are actually playing. `hibernate.py` snaps the full disk to a DigitalOcean snapshot and destroys the droplet. `revive.py` recreates it from the snapshot, updates Cloudflare DNS to the new IP, and starts the server — all in roughly five minutes. You pay for compute by the hour you play, not by the month.
+**Pay only when you play.** The droplet exists only when the server is needed. `hibernate.py` snaps the full disk to a DigitalOcean snapshot and destroys the droplet. `revive.py` recreates it from that snapshot, updates Cloudflare DNS to the new IP, and starts the server — all in roughly five minutes. You pay for compute by the hour you actually play, not by the month.
 
-**Data durability.** World data is backed up independently of the droplet via restic to Google Drive. Even if a snapshot is lost or you cancel the droplet entirely, the world survives. Backups run daily, on idle (after 30 minutes of zero players), and before every hibernate.
+**Your world survives the droplet.** World data is backed up independently via restic to Google Drive. Even if a snapshot is lost or you cancel the droplet entirely, the world is safe. Backups run daily, on idle (after 30 minutes of zero players), and before every hibernate.
 
-**Minimal operational overhead.** The server restarts itself on a schedule, notifies Discord on notable events, and monitors its own idle state. Day-to-day it runs without intervention.
+**Low maintenance once running.** The server restarts itself on a schedule, notifies Discord on notable events, and monitors its own idle state. Day-to-day it runs without intervention.
 
 ---
 
-## Architecture
+## How it's built
 
 ```
 Your machine
@@ -74,11 +74,11 @@ Your machine
 | hibernate.py | Snapshots the droplet disk and destroys the droplet |
 | revive.py | Recreates the droplet from snapshot and updates DNS |
 
-Panel and Wings run on the same droplet. There is no separate database host, no load balancer, no container orchestration. This is intentional — the complexity budget for a personal server is low.
+Panel and Wings run on the same droplet. No separate database host, no load balancer, no container orchestration — the complexity budget for a personal server is low.
 
 ---
 
-## Prerequisites
+## What you need
 
 ### Accounts
 
@@ -98,7 +98,7 @@ Tested on Ubuntu 22.04 LTS. A 4 GB / 2 vCPU / 80 GB SSD droplet comfortably runs
 
 ---
 
-## Setup
+## Setting it up
 
 ### 1. Provision the droplet
 
@@ -256,17 +256,17 @@ cp .env.example .env
 # Edit .env with your values
 ```
 
-See [Configuration](#configuration) for details on each variable.
+See [The .env file](#the-env-file) for details on each variable.
 
 ---
 
-## Configuration
+## The .env file
 
-All secrets and runtime configuration live in `.env`. Copy `.env.example` to `.env` and fill in every value.
+All secrets and runtime config live in `.env`. Copy `.env.example` to `.env` and fill in every value.
 
-The variables `SERVER_ADDR` and `PANEL_URL` drive the Cloudflare DNS update logic in `revive.py` — the script parses the domain and subdomains out of these values automatically, so no separate domain variable is needed.
+`SERVER_ADDR` and `PANEL_URL` drive the Cloudflare DNS update logic in `revive.py` — the script parses the domain and subdomains from these values automatically, so no separate domain variable is needed.
 
-### Generating the required tokens
+### Getting the tokens
 
 **DigitalOcean API token**
 Account → API → Tokens → Generate New Token. Read + Write scope. This token can create and destroy droplets on your entire account — treat it accordingly.
@@ -279,7 +279,7 @@ Panel → Account (top right) → API Credentials → Create API Key. This key c
 
 ---
 
-## Hibernate / Revive
+## Saving money when not playing
 
 ### What it does
 
@@ -308,7 +308,7 @@ Panel → Account (top right) → API Credentials → Create API Key. This key c
 9. Restarts Wings so it fetches an updated server configuration from the panel (which now has the correct allocation IP)
 10. Waits for Wings to become active, then sends a server start signal via Pterodactyl API
 11. Updates `DROPLET_IP` in the local `.env`
-12. Deletes the hibernation snapshot (it is no longer needed once the droplet is running)
+12. Deletes the hibernation snapshot (no longer needed once the droplet is running)
 13. Removes `hibernation-state.json`
 
 Total time: approximately 5 minutes.
@@ -329,7 +329,7 @@ Everything on the droplet disk: Pterodactyl Panel state and database, Wings conf
 
 The IP address is new on every revive. `revive.py` handles all downstream consequences automatically. If you SSH to the server by hostname after a revive, you will get a host key warning — clear the stale entry with `ssh-keygen -R play.yourdomain.com`.
 
-### A note on the post-revive service restart sequence
+### Why the restart order matters
 
 Three things must happen in a specific order for the revived server to work correctly:
 
@@ -357,7 +357,7 @@ systemctl restart wings
 
 ---
 
-## Backup System
+## Backups
 
 ### How it works
 
@@ -371,7 +371,7 @@ systemctl restart wings
 6. Prunes old snapshots according to the retention policy
 7. Sends a Discord notification with the amount added and time taken
 
-### Trigger conditions
+### When it runs
 
 | Trigger | When |
 |---|---|
@@ -380,7 +380,7 @@ systemctl restart wings
 | Pre-hibernate | Every time `hibernate.py` runs, before the snapshot |
 | Manual | `ssh root@<ip> /opt/mc-tools/backup.sh` |
 
-### Retention policy
+### How much is kept
 
 ```
 --keep-last 1 --keep-daily 30 --keep-weekly 12
@@ -392,11 +392,11 @@ One most-recent snapshot is always kept regardless of age. Up to 30 daily and 12
 
 `idle-monitor.py` runs as a systemd service. Every 5 minutes it replays the current `latest.log` from the beginning, counting net join/leave events since the last server start line. If the resulting count has been zero for 30 consecutive minutes, it runs `backup.sh`. A 2-hour cooldown prevents multiple idle backups in a session where players repeatedly join and leave.
 
-The log-replay approach is intentional: it requires no RCON, no plugins, and no Pterodactyl API calls. It works as long as the log file is readable on the host, which is always the case since Wings mounts the server volume directly.
+The log-replay approach requires no RCON, no plugins, and no Pterodactyl API calls. It works as long as the log file is readable on the host, which is always the case since Wings mounts the server volume directly.
 
 ---
 
-## Discord Notifications
+## Discord notifications
 
 `log-tailer.py` tails `latest.log` inside the server volume and sends webhook messages for notable events.
 
@@ -420,7 +420,7 @@ WEBHOOK_URL=https://discord.com/api/webhooks/<id>/<token>
 
 ---
 
-## Automation Schedule
+## What runs automatically
 
 | Time | Action |
 |---|---|
@@ -433,7 +433,7 @@ Adjust times to your timezone in `/etc/cron.d/mc-backup`.
 
 ---
 
-## File Reference
+## What's in this repo
 
 ### Local (your machine)
 
@@ -474,7 +474,7 @@ Adjust times to your timezone in `/etc/cron.d/mc-backup`.
 | `spark-config.json` | Server volume (Spark profiler config) |
 | `permissions.yml` | Server volume (LuckPerms-style permission overrides) |
 
-### Documentation (`docs/`)
+### Docs (`docs/`)
 
 | File | Contents |
 |---|---|
@@ -486,7 +486,7 @@ Adjust times to your timezone in `/etc/cron.d/mc-backup`.
 
 ---
 
-## Cost
+## What it actually costs
 
 DigitalOcean bills hourly, capped at the monthly rate. A `s-2vcpu-4gb` droplet is $24/month ($0.036/hour). Snapshots are $0.06/GB/month. A typical snapshot of this setup is 5–10 GB.
 
@@ -501,7 +501,7 @@ The crossover point is roughly one day of activity per month. Below that, hibern
 
 ---
 
-## Security
+## Keeping secrets safe
 
 **What to protect:**
 
@@ -520,7 +520,7 @@ The crossover point is roughly one day of activity per month. Below that, hibern
 
 ---
 
-## Disaster Recovery
+## If everything breaks
 
 If the droplet is destroyed and no DigitalOcean snapshot exists, the world can be recovered from Google Drive using:
 
