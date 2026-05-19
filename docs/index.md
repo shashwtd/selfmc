@@ -51,20 +51,9 @@ The 5-minute revive time is the only cost of hibernating.
 
 ### vs. managed Minecraft hosting
 
-Managed hosting looks cheaper at first glance — but they charge the same whether you play or not. With hibernate, you only pay for hours the server is actually running.
+Managed Minecraft hosts (Apex, Bisect, Shockbyte, etc.) charge $4–$15/month flat for a 4 GB plan — same price whether you play every day or once a month. Self-hosting with hibernate means you pay $0.036/hour only while the server exists. If you play one week a month and hibernate the rest, that's ~$6.50. If you don't play at all, it's $0.50 for the snapshot.
 
-All prices for a 4 GB RAM plan, May 2026.
-
-| Provider | 4 GB/month | Auto backups | Player slots | Full mod/plugin control |
-|---|---|---|---|---|
-| PebbleHost | $4.00 | Extra cost | Unlimited | Yes |
-| ScalaCube | $4.99 | Manual only | Unlimited | Yes |
-| Bisect Hosting | $8.00 | 7 days (4 slots) | Unlimited | Yes |
-| Shockbyte | ~$10.50 | Included | 80 slots | Yes |
-| Apex Hosting | $14.99 | Daily | Unlimited | Yes |
-| **This repo (DO)** | **$0.50–$24** | **Encrypted, to your Drive** | **Unlimited** | **Full root access** |
-
-The managed hosts win if you want zero maintenance and play every day. Self-hosting wins when you play occasionally — hibernating to $0.50/month while you're away, and keeping your world data encrypted under your own Google account with no player slot caps and no shared infrastructure.
+The managed hosts win if you want zero maintenance and play daily. Self-hosting wins for occasional players, and gives you encrypted backups to your own Google Drive, full root access, no player slot caps, and no shared infrastructure.
 
 ---
 
@@ -98,7 +87,7 @@ The managed hosts win if you want zero maintenance and play every day. Self-host
 
 ## Where to start
 
-**Easiest path:** Clone this repo and open it in [Claude Code](https://claude.ai/code), Cursor, or any AI coding assistant. Ask it to set up the server for you — it can read the scripts, run commands, and guide you through every step interactively. No manual reading required.
+**Easiest path:** Clone this repo and open it in [Claude Code](https://claude.ai/code), Cursor, or any AI coding assistant. The repo includes a `CLAUDE.md` that tells the agent to ask you everything it needs to know — server version, droplet size, whether you want backups, Discord, hibernate, etc. — before touching anything. Just say "set up my server" and it handles the rest.
 
 **Manual path:** Follow [Setting it up](setup.md) step by step.
 
