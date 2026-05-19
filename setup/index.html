@@ -1,0 +1,1191 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Self-hosted Minecraft with automated backups, hibernate/revive, and Discord notifications">
+      
+      
+      
+        <link rel="canonical" href="https://shashwtd.github.io/selfmc/setup/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../HIBERNATE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Setting it up - Minecraft Server on DigitalOcean</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#setting-it-up" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Minecraft Server on DigitalOcean" class="md-header__button md-logo" aria-label="Minecraft Server on DigitalOcean" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Minecraft Server on DigitalOcean
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setting it up
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/shashwtd/selfmc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    shashwtd/selfmc
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Minecraft Server on DigitalOcean" class="md-nav__button md-logo" aria-label="Minecraft Server on DigitalOcean" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Minecraft Server on DigitalOcean
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/shashwtd/selfmc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    shashwtd/selfmc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setting it up
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setting it up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choose-your-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose your setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Choose your setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#droplet-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Droplet size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minecraft-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minecraft version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-provision-the-droplet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Provision the droplet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configure DNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-install-pterodactyl-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Install Pterodactyl Panel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-install-wings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Install Wings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-create-the-minecraft-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Create the Minecraft server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-configure-restic-and-rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Configure restic and rclone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deploy-the-droplet-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deploy the droplet scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-enable-systemd-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Enable systemd services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-configure-the-local-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Configure the local .env
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Configure the local .env">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting the tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HIBERNATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hibernate & Revive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OPERATIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RECOVERY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WEBHOOKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discord
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choose-your-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose your setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Choose your setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#droplet-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Droplet size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minecraft-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minecraft version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-provision-the-droplet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Provision the droplet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configure DNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-install-pterodactyl-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Install Pterodactyl Panel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-install-wings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Install Wings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-create-the-minecraft-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Create the Minecraft server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-configure-restic-and-rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Configure restic and rclone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deploy-the-droplet-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deploy the droplet scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-enable-systemd-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Enable systemd services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-configure-the-local-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Configure the local .env
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Configure the local .env">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-the-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting the tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="setting-it-up">Setting it up<a class="headerlink" href="#setting-it-up" title="Permanent link">&para;</a></h1>
+<p>Full setup from scratch. Takes 1–2 hours depending on how familiar you are with the pieces.</p>
+<div class="admonition tip">
+<p class="admonition-title">Prefer an AI to walk you through it?</p>
+<p>Clone this repo and open it in <a href="https://claude.ai/code">Claude Code</a>, Cursor, or any AI coding assistant. Ask it to set everything up — it can read the scripts and docs and guide you interactively, run commands, and answer questions as you go. Way faster than following steps manually.</p>
+</div>
+<hr />
+<h2 id="choose-your-setup">Choose your setup<a class="headerlink" href="#choose-your-setup" title="Permanent link">&para;</a></h2>
+<h3 id="droplet-size">Droplet size<a class="headerlink" href="#droplet-size" title="Permanent link">&para;</a></h3>
+<p>Pick based on how many players you expect and whether you want mods.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>RAM</th>
+<th>Good for</th>
+<th>Monthly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>s-1vcpu-2gb</code></td>
+<td>2 GB</td>
+<td>1–3 players, vanilla/Paper</td>
+<td>$12</td>
+</tr>
+<tr>
+<td><code>s-2vcpu-4gb</code></td>
+<td>4 GB</td>
+<td>1–10 players, vanilla/Paper</td>
+<td>$24 ← recommended</td>
+</tr>
+<tr>
+<td><code>s-2vcpu-8gb</code></td>
+<td>8 GB</td>
+<td>10–20 players, or modpacks</td>
+<td>$48</td>
+</tr>
+</tbody>
+</table>
+<p>The 4 GB droplet is the sweet spot for a friend group server. Go 8 GB if you're running Forge modpacks — they leak memory.</p>
+<div class="admonition tip">
+<p class="admonition-title">Student? Get $200 free credit</p>
+<p>The <a href="https://education.github.com/pack">GitHub Student Developer Pack</a> includes $200 in DigitalOcean credit — enough to run the 4 GB droplet for 8+ months. Apply with your <code>.edu</code> email, takes 1–3 days to approve.</p>
+</div>
+<h3 id="server-type">Server type<a class="headerlink" href="#server-type" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PaperMC</strong> (default)</td>
+<td>Best performance, supports plugins, vanilla clients connect without mods</td>
+</tr>
+<tr>
+<td><strong>Vanilla</strong></td>
+<td>Pure Mojang experience, no plugins, no performance patches</td>
+</tr>
+<tr>
+<td><strong>Fabric</strong></td>
+<td>Lightweight mods — performance mods like Sodium work here</td>
+</tr>
+<tr>
+<td><strong>Forge</strong></td>
+<td>Heavy modpacks — use 8 GB+ droplet, all players need the same mods installed</td>
+</tr>
+<tr>
+<td><strong>Purpur</strong></td>
+<td>Paper fork with more config options, same plugin compatibility</td>
+</tr>
+</tbody>
+</table>
+<p>This guide uses PaperMC. For other server types, swap in their jar at step 5 — everything else (backups, panel, hibernate/revive) works the same.</p>
+<h3 id="minecraft-version">Minecraft version<a class="headerlink" href="#minecraft-version" title="Permanent link">&para;</a></h3>
+<p>No constraints here. Step 5 shows how to download any PaperMC version directly. Pick the latest stable, or pin to a specific version if your friends are on older clients.</p>
+<hr />
+<h2 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">&para;</a></h2>
+<p><strong>Accounts</strong></p>
+<ul>
+<li><strong>DigitalOcean</strong> — personal access token with read + write scope</li>
+<li><strong>Cloudflare</strong> — domain managed in Cloudflare; API token with Zone:DNS:Edit scoped to your zone</li>
+<li><strong>Google account</strong> — Drive backup storage; free 15 GB tier is enough for most worlds</li>
+<li><strong>Discord server</strong> (optional) — webhook URL for event notifications</li>
+</ul>
+<p><strong>Local tools</strong></p>
+<ul>
+<li>Python 3.10 or later (no third-party packages; stdlib only)</li>
+<li>SSH key pair: one passphrase-free key for automation, one passphrase-protected for interactive use</li>
+</ul>
+<p><strong>Droplet</strong></p>
+<p>Tested on Ubuntu 22.04 LTS. A 4 GB / 2 vCPU / 80 GB SSD droplet runs Panel, Wings, and PaperMC comfortably for up to ~10 players. Smaller sizes are untested.</p>
+<hr />
+<h2 id="1-provision-the-droplet">1. Provision the droplet<a class="headerlink" href="#1-provision-the-droplet" title="Permanent link">&para;</a></h2>
+<p>Create a 4 GB Ubuntu 22.04 droplet on DigitalOcean. Upload your automation SSH key during creation. Note the IP address.</p>
+<hr />
+<h2 id="2-configure-dns">2. Configure DNS<a class="headerlink" href="#2-configure-dns" title="Permanent link">&para;</a></h2>
+<p>In Cloudflare, create two A records pointing to the droplet IP:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Proxy status</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>panel.yourdomain.com</code></td>
+<td>Proxied (orange)</td>
+<td>Pterodactyl Panel</td>
+</tr>
+<tr>
+<td><code>play.yourdomain.com</code></td>
+<td>DNS only (grey)</td>
+<td>Minecraft connections and Wings API</td>
+</tr>
+</tbody>
+</table>
+<p>The panel subdomain is proxied so Cloudflare handles TLS. The play subdomain must be DNS-only because Minecraft clients connect directly, and Wings needs a Let's Encrypt cert issued to the real IP.</p>
+<hr />
+<h2 id="3-install-pterodactyl-panel">3. Install Pterodactyl Panel<a class="headerlink" href="#3-install-pterodactyl-panel" title="Permanent link">&para;</a></h2>
+<p>Follow the <a href="https://pterodactyl.io/panel/1.0/getting_started.html">official panel installation guide</a>. Use MariaDB and Redis as documented. Configure nginx with your panel domain.</p>
+<p>For TLS on the panel, use a Cloudflare Origin Certificate (15-year validity, no renewal needed):</p>
+<ol>
+<li>Cloudflare → your domain → SSL/TLS → Origin Server → Create Certificate</li>
+<li>Save the certificate and key to the droplet</li>
+<li>Set Cloudflare SSL/TLS mode to <strong>Full</strong> (not Full Strict)</li>
+</ol>
+<hr />
+<h2 id="4-install-wings">4. Install Wings<a class="headerlink" href="#4-install-wings" title="Permanent link">&para;</a></h2>
+<p>Follow the <a href="https://pterodactyl.io/wings/1.0/installing.html">Wings installation guide</a>. Set the node FQDN to your play subdomain (e.g., <code>play.yourdomain.com</code>).</p>
+<p>For Wings TLS, use Let's Encrypt (required since the play subdomain isn't Cloudflare-proxied):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>certbot
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>certbot<span class="w"> </span>certonly<span class="w"> </span>--standalone<span class="w"> </span>-d<span class="w"> </span>play.yourdomain.com
+</code></pre></div>
+<p>Add a certbot deploy hook so Wings restarts on renewal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/letsencrypt/renewal-hooks/deploy/restart-wings.sh<span class="w"> </span><span class="s">&lt;&lt;&#39;EOF&#39;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s">#!/bin/bash</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s">systemctl restart wings</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="s">EOF</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>chmod<span class="w"> </span>+x<span class="w"> </span>/etc/letsencrypt/renewal-hooks/deploy/restart-wings.sh
+</code></pre></div>
+<hr />
+<h2 id="5-create-the-minecraft-server">5. Create the Minecraft server<a class="headerlink" href="#5-create-the-minecraft-server" title="Permanent link">&para;</a></h2>
+<p>Install a PaperMC egg from <a href="https://github.com/pterodactyl/eggs">Pterodactyl's eggs repository</a> or create a server manually. Enable RCON in startup variables (required by the backup script).</p>
+<p>To use a specific PaperMC build that the egg's installer doesn't include:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">SERVER_DIR</span><span class="o">=</span>/var/lib/pterodactyl/volumes/&lt;your-server-uuid&gt;
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SERVER_DIR</span><span class="s2">/server.jar&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="s2">&quot;https://fill.papermc.io/v3/projects/paper/versions/&lt;version&gt;/builds/latest/download/type/application&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>chown<span class="w"> </span><span class="m">988</span>:988<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SERVER_DIR</span><span class="s2">/server.jar&quot;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not use the panel's "Reinstall" button after this — it re-runs the egg's install script and overwrites the jar.</p>
+</div>
+<hr />
+<h2 id="6-configure-restic-and-rclone">6. Configure restic and rclone<a class="headerlink" href="#6-configure-restic-and-rclone" title="Permanent link">&para;</a></h2>
+<p>Install the tools:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>restic
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span>https://rclone.org/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</code></pre></div>
+<p>Create a Google Cloud OAuth 2.0 client for rclone:</p>
+<ol>
+<li><a href="https://console.cloud.google.com">Google Cloud Console</a> → APIs &amp; Services → Credentials → Create OAuth 2.0 Client ID, type Desktop</li>
+<li>Enable the Google Drive API</li>
+<li>Note the client ID and secret</li>
+</ol>
+<p>Configure rclone with <code>drive.file</code> scope (rclone can only see files it created):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>rclone<span class="w"> </span>config
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># type: drive</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># scope: drive.file (option 3)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># client_id and client_secret: from step above</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># follow the auth URL</span>
+</code></pre></div>
+<p>Initialize the restic repository on Drive:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESTIC_REPOSITORY</span><span class="o">=</span>rclone:gdrive:minecraft-backups
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>restic<span class="w"> </span>init
+</code></pre></div>
+<p>Write the credentials file the backup script reads:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/mc-backup
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/mc-backup/backup.env<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="s">PTERO_URL=https://panel.yourdomain.com</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="s">PTERO_KEY=&lt;pterodactyl-client-api-key&gt;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="s">SERVER_ID=&lt;first-8-chars-of-server-uuid&gt;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="s">WORLD_DIR=/var/lib/pterodactyl/volumes/&lt;full-server-uuid&gt;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="s">RESTIC_REPOSITORY=rclone:gdrive:minecraft-backups</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s">RESTIC_PASSWORD_FILE=/root/.restic-password</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="s">EOF</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/mc-backup/backup.env
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;&lt;your-restic-password&gt;&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/root/.restic-password
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/root/.restic-password
+</code></pre></div>
+<hr />
+<h2 id="7-deploy-the-droplet-scripts">7. Deploy the droplet scripts<a class="headerlink" href="#7-deploy-the-droplet-scripts" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>scp<span class="w"> </span>droplet/scripts/*<span class="w"> </span>root@&lt;IP&gt;:/opt/mc-tools/
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>chmod<span class="w"> </span>+x<span class="w"> </span>/opt/mc-tools/*.sh<span class="w"> </span>/opt/mc-tools/*.py
+</code></pre></div>
+<p>Optionally configure Discord notifications:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;WEBHOOK_URL=https://discord.com/api/webhooks/...&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/mc-backup/webhook.env
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/mc-backup/webhook.env
+</code></pre></div>
+<p>If this file is absent, all webhook calls silently no-op.</p>
+<hr />
+<h2 id="8-enable-systemd-services">8. Enable systemd services<a class="headerlink" href="#8-enable-systemd-services" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cp<span class="w"> </span>droplet/services/idle-monitor.service<span class="w"> </span>droplet/services/log-tailer.service<span class="w"> </span>/etc/systemd/system/
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>idle-monitor<span class="w"> </span>log-tailer
+</code></pre></div>
+<p>Add a daily backup cron:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;0 6 * * * root /opt/mc-tools/backup.sh &gt;&gt; /var/log/mc-backup-cron.log 2&gt;&amp;1&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>&gt;<span class="w"> </span>/etc/cron.d/mc-backup
+</code></pre></div>
+<p>Add scheduled restart crons (optional — broadcasts a countdown in-game before restarting):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;55 4,10,16,22 * * * root /opt/mc-tools/restart-with-warning.sh &gt;&gt; /var/log/mc-restart-cron.log 2&gt;&amp;1&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>&gt;&gt;<span class="w"> </span>/etc/cron.d/mc-backup
+</code></pre></div>
+<hr />
+<h2 id="9-configure-the-local-env">9. Configure the local .env<a class="headerlink" href="#9-configure-the-local-env" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># fill in your values</span>
+</code></pre></div>
+<h3 id="getting-the-tokens">Getting the tokens<a class="headerlink" href="#getting-the-tokens" title="Permanent link">&para;</a></h3>
+<p><strong>DigitalOcean API token</strong>
+Account → API → Tokens → Generate New Token. Read + Write scope. This token can create and destroy droplets on your entire account.</p>
+<p><strong>Cloudflare API token</strong>
+Profile → API Tokens → Create Token → Edit zone DNS template. Scope it to your specific zone only.</p>
+<p><strong>Pterodactyl client API key</strong>
+Panel → Account (top right) → API Credentials → Create API Key.</p>
+<p><code>SERVER_ADDR</code> and <code>PANEL_URL</code> drive the Cloudflare DNS update logic in <code>revive.py</code> — the script derives the domain and subdomains from these values, so no separate domain variable is needed.</p>
+<hr />
+<h2 id="verify-it-works">Verify it works<a class="headerlink" href="#verify-it-works" title="Permanent link">&para;</a></h2>
+<p>Run a manual backup to confirm the whole chain works:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ssh<span class="w"> </span>root@&lt;droplet-ip&gt;<span class="w"> </span>/opt/mc-tools/backup.sh
+</code></pre></div>
+<p>Then check snapshots:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ssh<span class="w"> </span>root@&lt;droplet-ip&gt;<span class="w"> </span><span class="s2">&quot;source /etc/mc-backup/backup.env &amp;&amp; \</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="s2">  export RESTIC_REPOSITORY RESTIC_PASSWORD_FILE &amp;&amp; restic snapshots&quot;</span>
+</code></pre></div>
+<p>You should see at least one snapshot. If not, check <code>/var/log/mc-backup.log</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
