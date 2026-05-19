@@ -49,20 +49,22 @@ The recommended droplet (`s-2vcpu-4gb`) is **$0.036/hour** — you only pay for 
 
 The 5-minute revive time is the only cost of hibernating.
 
-### How DigitalOcean compares
+### vs. managed Minecraft hosting
 
-All prices for 2 vCPU / 4 GB RAM, May 2026.
+Managed hosting looks cheaper at first glance — but they charge the same whether you play or not. With hibernate, you only pay for hours the server is actually running.
 
-| Provider | Instance | $/month | $/hour | Notes |
+All prices for a 4 GB RAM plan, May 2026.
+
+| Provider | 4 GB/month | Auto backups | Player slots | Full mod/plugin control |
 |---|---|---|---|---|
-| **DigitalOcean** | s-2vcpu-4gb | **$24.00** | $0.036 | What this repo uses. Per-second billing, 4 TB outbound included |
-| Vultr | High Performance AMD | $24.00 | $0.036 | Same price, comparable specs |
-| Linode / Akamai | 4 GB Shared | $24.00 | $0.036 | Same price, comparable specs |
-| Google Cloud | e2-medium | $24.46 | $0.034 | Shared vCPUs, not dedicated |
-| AWS EC2 | t3.medium | $30.37 | $0.042 | Burstable performance, not sustained |
-| **Hetzner** | CX22 | **~$4.59** | ~$0.007 | Cheapest by far — EU datacenters only, prices in EUR |
+| PebbleHost | $4.00 | Extra cost | Unlimited | Yes |
+| ScalaCube | $4.99 | Manual only | Unlimited | Yes |
+| Bisect Hosting | $8.00 | 7 days (4 slots) | Unlimited | Yes |
+| Shockbyte | ~$10.50 | Included | 80 slots | Yes |
+| Apex Hosting | $14.99 | Daily | Unlimited | Yes |
+| **This repo (DO)** | **$0.50–$24** | **Encrypted, to your Drive** | **Unlimited** | **Full root access** |
 
-DigitalOcean, Vultr, and Linode are all priced identically. AWS is ~26% more expensive. Hetzner is dramatically cheaper but EU-only and the hibernate/revive scripts use the DigitalOcean API — you'd need to rewrite them for another provider.
+The managed hosts win if you want zero maintenance and play every day. Self-hosting wins when you play occasionally — hibernating to $0.50/month while you're away, and keeping your world data encrypted under your own Google account with no player slot caps and no shared infrastructure.
 
 ---
 
