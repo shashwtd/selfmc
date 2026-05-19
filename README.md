@@ -2,7 +2,7 @@
 
 self-hosted minecraft with a full [pterodactyl](https://pterodactyl.io) panel, encrypted world backups to google drive, discord notifications, and a hibernate/revive system that pauses the server when nobody's playing.
 
-### docs → [shashwtd.github.io/DigitalOcean-Minecraft-Server](https://shashwtd.github.io/DigitalOcean-Minecraft-Server)
+### docs → [shashwtd.github.io/selfmc](https://shashwtd.github.io/selfmc)
 
 ## what it does
 
@@ -21,7 +21,7 @@ clone the repo, open it in [claude code](https://claude.ai/code), cursor, codex,
 
 **manually**
 
-follow the [setup guide](https://shashwtd.github.io/DigitalOcean-Minecraft-Server/setup/).
+follow the [setup guide](https://shashwtd.github.io/selfmc/setup/).
 
 ## cost
 

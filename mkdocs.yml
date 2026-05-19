@@ -1,8 +1,8 @@
 site_name: Minecraft Server on DigitalOcean
 site_description: Self-hosted Minecraft with automated backups, hibernate/revive, and Discord notifications
-site_url: https://shashwtd.github.io/DigitalOcean-Minecraft-Server/
-repo_url: https://github.com/shashwtd/DigitalOcean-Minecraft-Server
-repo_name: shashwtd/DigitalOcean-Minecraft-Server
+site_url: https://shashwtd.github.io/selfmc/
+repo_url: https://github.com/shashwtd/selfmc
+repo_name: shashwtd/selfmc
 
 theme:
   name: material
