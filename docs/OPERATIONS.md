@@ -131,7 +131,7 @@ restic check
 
 ## SSL / certificate renewal
 
-- **Panel SSL**: Cloudflare Origin Cert (15-year validity, no renewal needed) at `/etc/ssl/cloudflare/koel.{crt,key}`
+- **Panel SSL**: Cloudflare Origin Cert (15-year validity, no renewal needed) at `/etc/ssl/cloudflare/yourdomain.{crt,key}`
 - **Wings SSL**: Let's Encrypt at `/etc/letsencrypt/live/play.yourdomain.com/`. Auto-renews via certbot's systemd timer. A deploy hook (`/etc/letsencrypt/renewal-hooks/deploy/restart-wings.sh`) restarts Wings after renewal.
 
 To force-renew Let's Encrypt:
@@ -171,7 +171,7 @@ certbot renew --force-renewal
 ## Adding a Cloudflare Origin Cert (if regenerating)
 
 1. Cloudflare → yourdomain.com → SSL/TLS → Origin Server → Create Certificate
-2. Save cert + key to `/etc/ssl/cloudflare/koel.crt` and `/etc/ssl/cloudflare/koel.key`
+2. Save cert + key to `/etc/ssl/cloudflare/yourdomain.crt` and `/etc/ssl/cloudflare/yourdomain.key`
 3. **Strip BOM and convert CRLF** if pasted from Windows: `dos2unix /etc/ssl/cloudflare/*`
 4. `chmod 600` on the key
 5. `systemctl restart nginx`

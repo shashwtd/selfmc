@@ -27,7 +27,7 @@ def main():
     server_addr = os.environ["SERVER_ADDR"]          # e.g. play.yourdomain.com
     mc_sub, cf_domain = server_addr.split(".", 1)    # play, yourdomain.com
     panel_host = urlparse(os.environ["PANEL_URL"]).hostname  # panel.yourdomain.com
-    panel_sub = panel_host.split(".")[0]             # panelmc
+    panel_sub = panel_host.split(".")[0]             # panel
     state_file = ROOT / "hibernation-state.json"
     if not state_file.exists():
         sys.exit("No hibernation-state.json - droplet isn't hibernated")
@@ -114,7 +114,7 @@ def main():
     # 5b. Fix DNS cache, allocation IPs, then restart services in the right order.
     #
     # Order matters:
-    #   1. Pin /etc/hosts so PHP-FPM resolves play.yourdomain.com to the new IP immediately
+    #   1. Pin /etc/hosts so PHP-FPM resolves the Wings FQDN to the new IP immediately
     #      (system DNS cache may still hold the old IP for up to 5 min TTL).
     #   2. Restart PHP-FPM + pteroq so the panel is healthy with the new IP.
     #   3. Fix allocation IPs in the DB so the panel serves the new IP to Wings.
@@ -122,9 +122,9 @@ def main():
     #      now-healthy panel. If Wings restarts before PHP-FPM is ready it gets stale
     #      config and Docker tries to bind to the old IP → server crashes on start.
     if ssh_ok:
-        log(f"Pinning play.yourdomain.com -> {ip} in /etc/hosts...")
+        log(f"Pinning {server_addr} -> {ip} in /etc/hosts...")
         ssh(f"root@{ip}",
-            f"sed -i '/play\\.koel\\.live/d' /etc/hosts && echo '{ip} play.yourdomain.com' >> /etc/hosts",
+            f"sed -i '/{re.escape(server_addr)}/d' /etc/hosts && echo '{ip} {server_addr}' >> /etc/hosts",
             check=False, timeout=10)
 
         log("Restarting PHP-FPM and pteroq...")

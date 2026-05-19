@@ -211,9 +211,10 @@ chmod 600 /root/.restic-password
 
 ### 7. Deploy the droplet scripts
 
-Copy `backup.sh`, `idle-monitor.py`, `log-tailer.py`, `webhook.sh`, and `restart-with-warning.sh` to `/opt/mc-tools/`:
+Copy the contents of `droplet/scripts/` to `/opt/mc-tools/` on the droplet:
 
 ```bash
+scp droplet/scripts/* root@<IP>:/opt/mc-tools/
 chmod +x /opt/mc-tools/*.sh /opt/mc-tools/*.py
 ```
 
@@ -229,7 +230,7 @@ If this file is absent, all webhook calls silently no-op.
 ### 8. Enable systemd services
 
 ```bash
-cp idle-monitor.service log-tailer.service /etc/systemd/system/
+cp droplet/services/idle-monitor.service droplet/services/log-tailer.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable --now idle-monitor log-tailer
 ```
@@ -445,7 +446,7 @@ Adjust times to your timezone in `/etc/cron.d/mc-backup`.
 | `.env.example` | Template for `.env` |
 | `hibernation-state.json` | Written by hibernate.py, consumed by revive.py (gitignored) |
 
-### Droplet (`/opt/mc-tools/`)
+### Droplet scripts (`droplet/scripts/` → deploy to `/opt/mc-tools/`)
 
 | File | Purpose |
 |---|---|
@@ -454,16 +455,34 @@ Adjust times to your timezone in `/etc/cron.d/mc-backup`.
 | `log-tailer.py` | Server log to Discord forwarder |
 | `webhook.sh` | Discord webhook helper |
 | `restart-with-warning.sh` | Broadcasts countdown, then restarts server via API |
+
+### Droplet services (`droplet/services/` → deploy to `/etc/systemd/system/`)
+
+| File | Purpose |
+|---|---|
 | `idle-monitor.service` | Systemd unit for idle-monitor.py |
 | `log-tailer.service` | Systemd unit for log-tailer.py |
+| `wings.service` | Systemd unit for Pterodactyl Wings (reference) |
 
-### Droplet config (reference copies)
+### Droplet config (`droplet/config/` — reference copies, not auto-deployed)
 
 | File | Deployed to |
 |---|---|
+| `backup.env` | `/etc/mc-backup/backup.env` (fill credentials before deploying) |
 | `pterodactyl.conf` | `/etc/nginx/sites-available/pterodactyl.conf` |
 | `wings-config.yml` | `/etc/pterodactyl/config.yml` |
-| `backup.env` | `/etc/mc-backup/backup.env` (populate from template; do not commit) |
+| `spark-config.json` | Server volume (Spark profiler config) |
+| `permissions.yml` | Server volume (LuckPerms-style permission overrides) |
+
+### Documentation (`docs/`)
+
+| File | Contents |
+|---|---|
+| `HIBERNATE.md` | Hibernate/revive workflow detail and billing math |
+| `OPERATIONS.md` | Day-to-day tasks: backups, plugins, MC version updates |
+| `RECOVERY.md` | Disaster recovery from Google Drive when no snapshot exists |
+| `REFERENCE.md` | Ports, file paths, service names, UUIDs |
+| `WEBHOOKS.md` | Discord webhook event spec and extension notes |
 
 ---
 

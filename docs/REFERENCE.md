@@ -29,7 +29,7 @@ Firewall (ufw): only the above are open.
 - App root: `/var/www/pterodactyl/`
 - Env / DB creds: `/var/www/pterodactyl/.env`
 - Nginx config: `/etc/nginx/sites-available/pterodactyl.conf`
-- Cloudflare cert: `/etc/ssl/cloudflare/koel.crt` + `koel.key`
+- Cloudflare cert: `/etc/ssl/cloudflare/yourdomain.crt` + `yourdomain.key`
 
 ### Wings
 - Binary: `/usr/local/bin/wings`
