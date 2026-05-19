@@ -2,6 +2,41 @@
 
 Full setup from scratch. Takes 1–2 hours depending on how familiar you are with the pieces.
 
+!!! tip "Prefer an AI to walk you through it?"
+    Clone this repo and open it in [Claude Code](https://claude.ai/code), Cursor, or any AI coding assistant. Ask it to set everything up — it can read the scripts and docs and guide you interactively, run commands, and answer questions as you go. Way faster than following steps manually.
+
+---
+
+## Choose your setup
+
+### Droplet size
+
+Pick based on how many players you expect and whether you want mods.
+
+| Size | RAM | Good for | Monthly |
+|---|---|---|---|
+| `s-1vcpu-2gb` | 2 GB | 1–3 players, vanilla/Paper | $12 |
+| `s-2vcpu-4gb` | 4 GB | 1–10 players, vanilla/Paper | $24 ← recommended |
+| `s-2vcpu-8gb` | 8 GB | 10–20 players, or modpacks | $48 |
+
+The 4 GB droplet is the sweet spot for a friend group server. Go 8 GB if you're running Forge modpacks — they leak memory.
+
+### Server type
+
+| Type | Best for |
+|---|---|
+| **PaperMC** (default) | Best performance, supports plugins, vanilla clients connect without mods |
+| **Vanilla** | Pure Mojang experience, no plugins, no performance patches |
+| **Fabric** | Lightweight mods — performance mods like Sodium work here |
+| **Forge** | Heavy modpacks — use 8 GB+ droplet, all players need the same mods installed |
+| **Purpur** | Paper fork with more config options, same plugin compatibility |
+
+This guide uses PaperMC. For other server types, swap in their jar at step 5 — everything else (backups, panel, hibernate/revive) works the same.
+
+### Minecraft version
+
+No constraints here. Step 5 shows how to download any PaperMC version directly. Pick the latest stable, or pin to a specific version if your friends are on older clients.
+
 ---
 
 ## What you need

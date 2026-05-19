@@ -68,6 +68,8 @@ The 5-minute revive time is the main cost of hibernation.
 
 ## Where to start
 
-New to this? → [Setting it up](setup.md)
+**Easiest path:** Clone this repo and open it in [Claude Code](https://claude.ai/code), Cursor, or any AI coding assistant. Ask it to set up the server for you — it can read the scripts, run commands, and guide you through every step interactively. No manual reading required.
 
-Already running, just need something specific? Use the nav on the left.
+**Manual path:** Follow [Setting it up](setup.md) step by step.
+
+Already running and just need something specific? Use the nav on the left.
