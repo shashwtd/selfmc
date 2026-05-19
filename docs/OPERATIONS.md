@@ -5,7 +5,7 @@ Common tasks for running the server.
 ## Connecting
 
 ```powershell
-ssh -i $env:USERPROFILE\.ssh\do_minecraft_claude root@<droplet-ip>
+ssh -i ~/.ssh/do_minecraft_claude root@<droplet-ip>
 ```
 
 `do_minecraft_claude` is the passphrase-free key. `id_ed25519` is the passphrase-protected one.

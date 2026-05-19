@@ -20,7 +20,7 @@ These are tiny, fit in a password manager, and are the only critical secrets.
 
 Grab them once:
 ```bash
-ssh -i $env:USERPROFILE\.ssh\do_minecraft_claude root@<droplet-ip> \
+ssh -i ~/.ssh/do_minecraft_claude root@<droplet-ip> \
   "cat /root/.restic-password; echo; grep -E 'client_id|client_secret' /root/.config/rclone/rclone.conf"
 ```
 → paste into Bitwarden / 1Password / iCloud Keychain / your password manager of choice. **DO NOT** commit them to git or any sync'd folder.
@@ -98,7 +98,7 @@ So canceling the droplet costs you about an hour of setup work, but no data.
 ## Sanity check: when did backups last run?
 
 ```bash
-ssh -i $env:USERPROFILE\.ssh\do_minecraft_claude root@<droplet-ip> \
+ssh -i ~/.ssh/do_minecraft_claude root@<droplet-ip> \
   "source /etc/mc-backup/backup.env && export RESTIC_REPOSITORY RESTIC_PASSWORD_FILE && restic snapshots --latest 5"
 ```
 

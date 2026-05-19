@@ -25,9 +25,14 @@ def load_env():
         if not m:
             continue
         k, v = m.group(1), m.group(2)
-        # Expand $env:VAR style refs (so SSH_KEY_AUTOMATION="$env:USERPROFILE\..." works)
+        # Expand $env:VAR (Windows/PowerShell) and $VAR / ${VAR} (Unix)
         v = re.sub(r"\$env:([A-Za-z_][A-Za-z0-9_]*)",
                    lambda mm: os.environ.get(mm.group(1), ""), v)
+        v = re.sub(r"\$\{([A-Za-z_][A-Za-z0-9_]*)\}",
+                   lambda mm: os.environ.get(mm.group(1), ""), v)
+        v = re.sub(r"\$([A-Za-z_][A-Za-z0-9_]*)",
+                   lambda mm: os.environ.get(mm.group(1), ""), v)
+        v = os.path.expanduser(v)   # expand ~ to home dir on all platforms
         os.environ[k] = v
 
 

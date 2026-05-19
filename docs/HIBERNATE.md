@@ -34,7 +34,6 @@ You do NOT need to hibernate for one-off quiet evenings — the idle monitor alr
 ## Usage
 
 ```powershell
-cd "D:\DigitalOcean Minecraft Server"
 python hibernate.py     # ~3-5 min to snapshot + destroy
 # ... time passes, friends ping you ...
 python revive.py        # ~5 min to recreate + DNS update
@@ -67,8 +66,8 @@ The new droplet has a different SSH host key than the old one. Two cases:
 **If you SSH to the new IP** (e.g. `ssh root@168.x.x.x`):
 - No warning — new IP isn't in your `known_hosts` yet
 - Just connect normally:
-  ```powershell
-  ssh -i $env:USERPROFILE\.ssh\do_minecraft_claude root@<new-ip>
+  ```bash
+  ssh -i ~/.ssh/do_minecraft_claude root@<new-ip>
   ```
 
 **If you SSH by hostname** (e.g. `ssh root@play.yourdomain.com`):
