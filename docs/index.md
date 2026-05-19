@@ -49,6 +49,21 @@ The recommended droplet (`s-2vcpu-4gb`) is **$0.036/hour** — you only pay for 
 
 The 5-minute revive time is the only cost of hibernating.
 
+### How DigitalOcean compares
+
+All prices for 2 vCPU / 4 GB RAM, May 2026.
+
+| Provider | Instance | $/month | $/hour | Notes |
+|---|---|---|---|---|
+| **DigitalOcean** | s-2vcpu-4gb | **$24.00** | $0.036 | What this repo uses. Per-second billing, 4 TB outbound included |
+| Vultr | High Performance AMD | $24.00 | $0.036 | Same price, comparable specs |
+| Linode / Akamai | 4 GB Shared | $24.00 | $0.036 | Same price, comparable specs |
+| Google Cloud | e2-medium | $24.46 | $0.034 | Shared vCPUs, not dedicated |
+| AWS EC2 | t3.medium | $30.37 | $0.042 | Burstable performance, not sustained |
+| **Hetzner** | CX22 | **~$4.59** | ~$0.007 | Cheapest by far — EU datacenters only, prices in EUR |
+
+DigitalOcean, Vultr, and Linode are all priced identically. AWS is ~26% more expensive. Hetzner is dramatically cheaper but EU-only and the hibernate/revive scripts use the DigitalOcean API — you'd need to rewrite them for another provider.
+
 ---
 
 ## Are you a student?
