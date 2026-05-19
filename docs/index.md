@@ -49,11 +49,6 @@ The recommended droplet (`s-2vcpu-4gb`) is **$0.036/hour** — you only pay for 
 
 The 5-minute revive time is the only cost of hibernating.
 
-### vs. managed Minecraft hosting
-
-Managed Minecraft hosts (Apex, Bisect, Shockbyte, etc.) charge $4–$15/month flat for a 4 GB plan — same price whether you play every day or once a month. Self-hosting with hibernate means you pay $0.036/hour only while the server exists. If you play one week a month and hibernate the rest, that's ~$6.50. If you don't play at all, it's $0.50 for the snapshot.
-
-The managed hosts win if you want zero maintenance and play daily. Self-hosting wins for occasional players, and gives you encrypted backups to your own Google Drive, full root access, no player slot caps, and no shared infrastructure.
 
 ---
 
@@ -87,7 +82,7 @@ The managed hosts win if you want zero maintenance and play daily. Self-hosting 
 
 ## Where to start
 
-**Easiest path:** Clone this repo and open it in [Claude Code](https://claude.ai/code), Cursor, or any AI coding assistant. The repo includes a `CLAUDE.md` that tells the agent to ask you everything it needs to know — server version, droplet size, whether you want backups, Discord, hibernate, etc. — before touching anything. Just say "set up my server" and it handles the rest.
+**Easiest path:** Clone this repo, open it in [Claude Code](https://claude.ai/code), Cursor, Codex, or any AI coding assistant, and say "help me set up my server". The agent will figure out the rest.
 
 **Manual path:** Follow [Setting it up](setup.md) step by step.
 
