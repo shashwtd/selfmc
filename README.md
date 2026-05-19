@@ -2,9 +2,7 @@
 
 self-hosted minecraft with a full [pterodactyl](https://pterodactyl.io) panel, encrypted world backups to google drive, discord notifications, and a hibernate/revive system that pauses the server when nobody's playing.
 
-**[docs](https://shashwtd.github.io/DigitalOcean-Minecraft-Server)** · **[.env.example](.env.example)**
-
----
+### docs → [shashwtd.github.io/DigitalOcean-Minecraft-Server](https://shashwtd.github.io/DigitalOcean-Minecraft-Server)
 
 ## what it does
 
@@ -43,9 +41,7 @@ follow the [setup guide](https://shashwtd.github.io/DigitalOcean-Minecraft-Serve
 - digitalocean account + api token ([create one](https://cloud.digitalocean.com/account/api/tokens))
 - domain on cloudflare + api token
 - google account for drive backups
-- python 3.10+, ssh key pair
+- python 3.10+, ssh key pair (see [.env.example](.env.example) for all required config)
 - discord server (optional)
-
----
 
 ![Hackatime](https://hackatime.hackclub.com/api/v1/badge/U08RPK27GSF/DigitalOcean%20Minecraft%20Server)
