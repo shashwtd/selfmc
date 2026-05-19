@@ -38,16 +38,29 @@ Panel and Wings run on the same droplet. No separate database host, no load bala
 
 ## What it actually costs
 
-DigitalOcean bills hourly, capped at the monthly rate. A `s-2vcpu-4gb` droplet is $24/month ($0.036/hour). Snapshots are $0.06/GB/month.
+The recommended droplet (`s-2vcpu-4gb`) is **$0.036/hour** — you only pay for hours the droplet exists. Snapshots (while hibernated) cost $0.06/GB/month, typically $0.30–$0.60/month total.
 
-| State | Monthly cost |
+| How you play | Monthly cost |
 |---|---|
-| Running continuously | $24.00 |
-| Playing 2 weeks, hibernated 2 weeks | ~$12.50 |
-| Playing 1 week, hibernated 3 weeks | ~$6.50 |
+| Running 24/7 | $24.00 |
+| 2 weeks on, 2 weeks off | ~$12.50 |
+| 1 week on, 3 weeks off | ~$6.50 |
 | Fully hibernated | ~$0.50 |
 
-The 5-minute revive time is the main cost of hibernation.
+The 5-minute revive time is the only cost of hibernating.
+
+---
+
+## Are you a student?
+
+!!! tip "GitHub Education gives you $200 in free DigitalOcean credit"
+    If you have a `.edu` email or a school-verified GitHub account, you qualify for the [GitHub Student Developer Pack](https://education.github.com/pack). It includes **$200 in DigitalOcean credit** — enough to run the recommended 4 GB droplet for over 8 months, or play freely without worrying about the bill.
+
+    1. Apply at [education.github.com/pack](https://education.github.com/pack) (takes 1–3 days to approve)
+    2. Redeem the DigitalOcean offer from your pack dashboard
+    3. Come back here and follow the setup guide
+
+    The 4 GB droplet is the right choice for a student server — comfortable headroom for 1–10 players without needing to think about memory pressure.
 
 ---
 

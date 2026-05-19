@@ -488,16 +488,20 @@ Adjust times to your timezone in `/etc/cron.d/mc-backup`.
 
 ## What it actually costs
 
-DigitalOcean bills hourly, capped at the monthly rate. A `s-2vcpu-4gb` droplet is $24/month ($0.036/hour). Snapshots are $0.06/GB/month. A typical snapshot of this setup is 5–10 GB.
+DigitalOcean bills hourly, capped at the monthly rate. The recommended `s-2vcpu-4gb` droplet runs at **$0.036/hour** — you only pay for hours it exists. Snapshots (while hibernated) cost $0.06/GB/month.
 
-| State | Monthly cost |
+| How you play | Monthly cost |
 |---|---|
-| Running continuously | $24.00 |
-| Playing 2 weeks, hibernated 2 weeks | ~$12.50 |
-| Playing 1 week, hibernated 3 weeks | ~$6.50 |
+| Running 24/7 | $24.00 |
+| 2 weeks on, 2 weeks off | ~$12.50 |
+| 1 week on, 3 weeks off | ~$6.50 |
 | Fully hibernated | ~$0.50 |
 
-The crossover point is roughly one day of activity per month. Below that, hibernating is cheaper. Above that, it may not be worth the friction. The 5-minute revive time is the main cost of hibernation.
+The crossover point is roughly one day of activity per month. The 5-minute revive time is the only cost of hibernating.
+
+### Are you a student?
+
+The [GitHub Student Developer Pack](https://education.github.com/pack) includes **$200 in free DigitalOcean credit** — enough to run the 4 GB droplet for 8+ months. Apply at [education.github.com/pack](https://education.github.com/pack) with a `.edu` email or school-verified GitHub account (approval takes 1–3 days).
 
 ---
 

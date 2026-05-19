@@ -21,6 +21,9 @@ Pick based on how many players you expect and whether you want mods.
 
 The 4 GB droplet is the sweet spot for a friend group server. Go 8 GB if you're running Forge modpacks — they leak memory.
 
+!!! tip "Student? Get $200 free credit"
+    The [GitHub Student Developer Pack](https://education.github.com/pack) includes $200 in DigitalOcean credit — enough to run the 4 GB droplet for 8+ months. Apply with your `.edu` email, takes 1–3 days to approve.
+
 ### Server type
 
 | Type | Best for |
