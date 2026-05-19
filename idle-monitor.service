@@ -1,0 +1,14 @@
+[Unit]
+Description=Minecraft Idle Backup Monitor
+After=network.target wings.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/mc-tools/idle-monitor.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

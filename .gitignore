@@ -1,0 +1,12 @@
+# Never commit any of these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+secrets/
+backup-env/
+world-backups/
+hibernation-state.json
+__pycache__/

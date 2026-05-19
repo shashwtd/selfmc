@@ -1,0 +1,9 @@
+# Bukkit permission overrides — applied to all non-op players by default.
+# Set "default: true" to let anyone use the perm; "false" to require op.
+
+bukkit.command.ping:
+  default: true
+paper.command.ping:
+  default: true
+tabtps.ping:
+  default: true
